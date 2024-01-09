@@ -1,0 +1,20 @@
+.WholeContainer{
+    width: 100vw;
+    
+}
+.sidebarContainer{
+    width: 30%;
+}
+.HomePageContainer{
+    width: 70%;
+}
+
+@media screen and (max-width: 767px){
+    .sidebarContainer{
+        display: none;
+    }
+    .HomePageContainer{
+        width:100%;
+    }
+}
+

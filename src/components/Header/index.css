@@ -1,0 +1,17 @@
+.websitelogo{
+    padding: 3px;
+}
+@media screen and (max-width: 767px){
+    .websitelogo{
+        display: flex;
+    }
+}
+@media screen and (min-width: 768px){
+    .websitelogo{
+        display: none;
+    }
+}
+.bgcolorcss{
+    background-color: #1e293b;
+    color:white;
+}

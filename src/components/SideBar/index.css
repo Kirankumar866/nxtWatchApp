@@ -1,0 +1,15 @@
+
+@media screen and (max-width: 767px){
+    .sidebar-card{
+        display: none;
+        background-color: aqua;
+    }
+
+}
+.light{
+    color: black;
+
+}
+.dark{
+    color: white;
+}
