@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Cookies from 'js-cookie'
+import {Link} from "react-router-dom"
 import "./index.css"
-import Loader from 'react-loader-spinner'
+import {ThreeDots} from 'react-loader-spinner'
+
 import { IoCloseCircleOutline } from 'react-icons/io5';
+import PlayerContainer from '../PlayerContainer';
 
 const apiStatusConstants = {
     initial: 'INITIAL',
@@ -45,6 +48,7 @@ class HomeVideoSection extends Component {
     if (response.ok) {
       const fetchedData = await response.json()
       const updatedVideoData = fetchedData.videos.map((eachVideo)=>this.getFormattedVideoData(eachVideo))
+      
       this.setState({
         videoData: updatedVideoData,
         apiStatus: apiStatusConstants.success,
@@ -56,6 +60,39 @@ class HomeVideoSection extends Component {
       })
     }
   }
+
+  renderLoadingView = () => (
+    <div className="products-details-loader-container" data-testid="loader">
+      <ThreeDots
+  visible={true}
+  height="50"
+  width="50"
+  color="#4fa94d"
+  radius="9"
+  ariaLabel="three-dots-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div className="product-details-error-view-container">
+      <img
+        alt="error view"
+        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
+        className="error-view-image"
+      />
+      <h1 className="product-not-found-heading">Product Not Found</h1>
+      <Link to="/">
+        <button type="button" className="bg-red-400 rounded pl-2 pr-2 button">
+          Try Again
+        </button>
+      </Link>
+    </div>
+  )
+
+
 
   
   
@@ -109,13 +146,43 @@ class HomeVideoSection extends Component {
     />
   )
 
+  renderingVideosView = ()=>{
+    const {videoData} = this.state
+    
+
+    return(
+        <ul className='w-full flex-wrap p-1 sm:flex justify-start items-start md:flex justify-start items-start'>
+            {videoData.map((eachVideo)=><PlayerContainer eachvideo = {eachVideo} />)}
+        </ul>
+
+    )
+  }
+
+  renderingHomeResult = ()=>{
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderingVideosView()
+      case apiStatusConstants.failure:
+        return this.renderFailureView()
+      case apiStatusConstants.inProgress:
+        return this.renderLoadingView()
+      default:
+        return null
+    }
+  }
+
+
   
 
   render() {
     return <>
     {this.bannerDisplay()}
-    <div className = "pt-2 pl-2">
+    <div className = "pt-2 pl-2 w-full">
     {this.renderSearch()}
+    {this.renderingHomeResult()}
+    
 
     </div>
     
