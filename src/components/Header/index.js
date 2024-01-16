@@ -20,8 +20,9 @@ const Header = (props)=>
             Cookies.remove('jwt_token')
             history.replace('/login')
           }
+          
         return (
-            <div className={`${bgColor} w-full flex justify-between items-start p-2 md:flex md:justify-end md:items-center`}>
+            <div className={`${bgColor} w-full flex justify-between items-start p-2 md:flex md:justify-end md:items-center h-14`}>
             <img src= {imageUrl} alt = "website logo"  className = "w-13 h-8 websitelogo "/>
             <div className="hidden md:flex justify-start items-center mr-5 ">
             <button type = "button" onClick = {onChangeTheme}>

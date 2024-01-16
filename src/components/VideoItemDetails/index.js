@@ -1,10 +1,9 @@
 import "./index.css"
-import { Component } from "react"
+import {Component} from 'react'
 import {Link} from "react-router-dom"
 import Cookies from 'js-cookie'
 import {ThreeDots} from 'react-loader-spinner'
-import {MdLocalFireDepartment} from "react-icons/md"
-import TrendingVideoDetail from "../TrendingVideoDetail"
+import VideoDetails from "../VideoDetails"
 
 const apiStatusConstants = {
     initial: 'INITIAL',
@@ -13,30 +12,40 @@ const apiStatusConstants = {
     inProgress: 'IN_PROGRESS',
   }
 
-class Trending extends Component{
+class VideoItemDetails extends Component{
 
-    state = {TrendingVideoData: [],apiStatus: apiStatusConstants.initial}
+    state = {videoDetails: [],apiStatus: apiStatusConstants.initial,}
 
     componentDidMount(){
-        this.getTrendingVideos()
+        this.getVideoDetails()
     }
 
     getFormattedVideoData = data => ({
-        channel: {name: data.channel.name,profileImageUrl : data.channel.profile_image_url},
+        channel: {name: data.channel.name,profileImageUrl : data.channel.profile_image_url,subscriberCount: data.channel.subscriber_count},
         id: data.id,
+        videoUrl: data.video_url,
         publishedAt: data.published_at,
         thumbnailUrl: data.thumbnail_url,
         title: data.title,
         viewCount: data.view_count,
+        description: data.description,
+        
       })
 
-    getTrendingVideos = async () => {
+    getVideoDetails = async () => {
+
+        const {match} = this.props
+        const {params} = match
+        const {id} = params 
+        
+
     
         this.setState({
           apiStatus: apiStatusConstants.inProgress,
         })
+
         const jwtToken = Cookies.get('jwt_token')
-        const apiUrl = "https://apis.ccbp.in/videos/trending"
+        const apiUrl = `https://apis.ccbp.in/videos/${id}`
         const options = {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -46,10 +55,11 @@ class Trending extends Component{
         const response = await fetch(apiUrl, options)
         if (response.ok) {
           const fetchedData = await response.json()
-          const updatedVideoData = fetchedData.videos.map((eachVideo)=>this.getFormattedVideoData(eachVideo))
           
+          const updatedVideoData = this.getFormattedVideoData(fetchedData.video_details)
+          console.log(updatedVideoData)
           this.setState({
-            TrendingVideoData: updatedVideoData,
+            videoDetails: updatedVideoData,
             apiStatus: apiStatusConstants.success,
           })
         }
@@ -91,33 +101,23 @@ class Trending extends Component{
         </div>
       )
 
-    trendingHeader = ()=>(
-        <div className="flex justify-start items-center pl-12 bg-neutral-200 p-2">
-                <div className="w-16 h-16 bg-slate-300 rounded-full bg-center flex justify-center items-center mr-2">
-                <MdLocalFireDepartment className="w-12 h-12 text-red"/>
-                </div>
-            <h2 className="font-bold">Trending</h2>
-            </div>
-    )
+      renderingVideoItemView = ()=>{
+        const {videoDetails} = this.state
 
-    renderingTrendingView = ()=>{
-        const {TrendingVideoData} = this.state
-        
-        return (
-            <ul className="w-full flex-col justify-start items-center">
-                {TrendingVideoData.map((eachTrend=> <TrendingVideoDetail eachVideo = {eachTrend} />))}
-
+          return(
+            <ul className="flex justify-start items-start w-full">
+                <VideoDetails videoDetails = {videoDetails} />
             </ul>
-        )
 
-    }
+          )
+      }
 
-    renderingTrendingResult = ()=>{
+      renderingVideoItemResult = ()=>{
         const {apiStatus} = this.state
     
         switch (apiStatus) {
           case apiStatusConstants.success:
-            return this.renderingTrendingView()
+            return this.renderingVideoItemView()
           case apiStatusConstants.failure:
             return this.renderFailureView()
           case apiStatusConstants.inProgress:
@@ -127,19 +127,18 @@ class Trending extends Component{
         }
       }
 
+
+
     render(){
-
         return(
-            <div >
-                {this.trendingHeader()}
-                {this.renderingTrendingResult()}
-            </div>
-    
-        )
+            <>
+            {this.renderingVideoItemResult()}
+            </>
 
+
+        )
     }
 
-    
 }
 
-export default Trending
+export default VideoItemDetails

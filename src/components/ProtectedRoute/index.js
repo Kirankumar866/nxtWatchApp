@@ -1,19 +1,20 @@
 import "./index.css"
+import {Route} from "react-router-dom"
 import SideBar from "../SideBar"
 import Header from "../Header"
-import HomeVideoSection from "../HomeVideoSection"
 
-const Home = ()=>{
+
+const ProtectedRoute = (props)=>{
     return(
         <div className = "flex justify-start items-start WholeContainer">
             <SideBar className = "sidebarContainer"/>
             <div className = "HomePageContainer">
                 <Header />
-                <HomeVideoSection />
+                <Route {...props} />
             </div>
         </div>
     )
 
 }
 
-export default Home 
+export default ProtectedRoute 

@@ -1,10 +1,10 @@
 import "./index.css"
-import { Component } from "react"
+import {Component} from "react"
+import { SiYoutubegaming } from "react-icons/si";
 import {Link} from "react-router-dom"
 import Cookies from 'js-cookie'
 import {ThreeDots} from 'react-loader-spinner'
-import {MdLocalFireDepartment} from "react-icons/md"
-import TrendingVideoDetail from "../TrendingVideoDetail"
+import GamingVideoDetail from "../GamingVideoDetail"
 
 const apiStatusConstants = {
     initial: 'INITIAL',
@@ -13,30 +13,36 @@ const apiStatusConstants = {
     inProgress: 'IN_PROGRESS',
   }
 
-class Trending extends Component{
+class Gaming extends Component{
 
-    state = {TrendingVideoData: [],apiStatus: apiStatusConstants.initial}
+    state = {gamingVideoData: [],apiStatus: apiStatusConstants.initial}
+
+    gamingHeader = ()=>(
+        <div className="flex justify-start items-center pl-12 bg-neutral-200 p-2">
+                <div className="w-16 h-16 bg-slate-300 rounded-full bg-center flex justify-center items-center mr-2">
+                <SiYoutubegaming className="w-10 h-10 text-red-600"/>
+                </div>
+            <h2 className="font-bold">Gaming</h2>
+            </div>
+    )
 
     componentDidMount(){
-        this.getTrendingVideos()
+        this.getGamingVideos()
     }
-
     getFormattedVideoData = data => ({
-        channel: {name: data.channel.name,profileImageUrl : data.channel.profile_image_url},
         id: data.id,
-        publishedAt: data.published_at,
         thumbnailUrl: data.thumbnail_url,
         title: data.title,
         viewCount: data.view_count,
       })
 
-    getTrendingVideos = async () => {
+    getGamingVideos = async () => {
     
         this.setState({
           apiStatus: apiStatusConstants.inProgress,
         })
         const jwtToken = Cookies.get('jwt_token')
-        const apiUrl = "https://apis.ccbp.in/videos/trending"
+        const apiUrl = "https://apis.ccbp.in/videos/gaming"
         const options = {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -47,9 +53,8 @@ class Trending extends Component{
         if (response.ok) {
           const fetchedData = await response.json()
           const updatedVideoData = fetchedData.videos.map((eachVideo)=>this.getFormattedVideoData(eachVideo))
-          
           this.setState({
-            TrendingVideoData: updatedVideoData,
+            gamingVideoData: updatedVideoData,
             apiStatus: apiStatusConstants.success,
           })
         }
@@ -83,41 +88,31 @@ class Trending extends Component{
             className="error-view-image"
           />
           <h1 className="product-not-found-heading">Product Not Found</h1>
-          <Link to="/">
-            <button type="button" className="bg-red-400 rounded pl-2 pr-2 button">
+          <Link to="/gaming">
+            <button type="button" className="bg-violet-500 rounded-lg p-2 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300">
               Try Again
             </button>
           </Link>
         </div>
       )
 
-    trendingHeader = ()=>(
-        <div className="flex justify-start items-center pl-12 bg-neutral-200 p-2">
-                <div className="w-16 h-16 bg-slate-300 rounded-full bg-center flex justify-center items-center mr-2">
-                <MdLocalFireDepartment className="w-12 h-12 text-red"/>
-                </div>
-            <h2 className="font-bold">Trending</h2>
-            </div>
-    )
+      renderingGamingView = ()=>{
+        const {gamingVideoData} = this.state
 
-    renderingTrendingView = ()=>{
-        const {TrendingVideoData} = this.state
-        
-        return (
-            <ul className="w-full flex-col justify-start items-center">
-                {TrendingVideoData.map((eachTrend=> <TrendingVideoDetail eachVideo = {eachTrend} />))}
-
+        return(
+            <ul className="flex flex-wrap pt-3 flex-grow justify-start items-start">
+                {gamingVideoData.map((eachGame=><GamingVideoDetail  eachGame = {eachGame} />))}
             </ul>
         )
 
-    }
+      }
 
-    renderingTrendingResult = ()=>{
+      renderingGamingResult = ()=>{
         const {apiStatus} = this.state
     
         switch (apiStatus) {
           case apiStatusConstants.success:
-            return this.renderingTrendingView()
+            return this.renderingGamingView()
           case apiStatusConstants.failure:
             return this.renderFailureView()
           case apiStatusConstants.inProgress:
@@ -127,19 +122,22 @@ class Trending extends Component{
         }
       }
 
-    render(){
 
+    render(){
         return(
-            <div >
-                {this.trendingHeader()}
-                {this.renderingTrendingResult()}
+
+            <div>
+                {this.gamingHeader()}
+                {this.renderingGamingResult()}
+
             </div>
+    
+    
     
         )
 
     }
-
     
 }
 
-export default Trending
+export default Gaming

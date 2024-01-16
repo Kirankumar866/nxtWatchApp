@@ -9,12 +9,12 @@ const PlayerContainer = (props)=>{
     
     let published = formatDistanceToNow(new Date(publishedAt)).match(/\d+/)
     const numberOfYears = published ? published[0] : null;
-    console.log(numberOfYears)
+  
     const {name,profileImageUrl} = channel
 
     return(
-        <Link to = {`/videos/${id}`} key = {id} className = "shrink w-full flex-col justify-start items-start sm:w-1/2 md:w-1/3 p-1" >
-            <img src={thumbnailUrl}className = "sm: w-full " alt='Thumbnail' />
+        <Link to = {`/videos/${id}`} key = {id} className = "transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-300 shrink w-full flex-col hover:shadow-lg justify-start items-start sm:w-1/2 md:w-1/3 p-1" >
+            <img src={thumbnailUrl}className = "sm: w-full" alt='Thumbnail' />
             <div className="flex justify-start ">
                 <img src = {profileImageUrl} alt = "profile" className="w-10 h-10 mr-1" />
                 <div className = "flex-col justify-start items-start">

@@ -36,9 +36,9 @@ menuItemStyles={{
 <div className='mt-32'>
 <h3 className = "p-1">Contact Us</h3>
 <div className = "flex justify-start items-center p-2 ">
-    <img src = "https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png" className = "w-9 h-9 mr-2" alt = "facebook logo" />
-    <img src = "https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png" className = "w-9 h-9 mr-2" alt = "twitter logo" />
-    <img src = "https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png" className = "w-9 h-9 mr-2" alt = "linked logo" />
+    <img src = "https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png" className = "w-9 h-9 mr-2 hover:animate-bounce cursor-pointer" alt = "facebook logo" />
+    <img src = "https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png" className = "w-9 h-9 mr-2 hover:animate-bounce cursor-pointer" alt = "twitter logo" />
+    <img src = "https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png" className = "w-9 h-9 mr-2 hover:animate-bounce cursor-pointer" alt = "linked logo" />
 </div>
 <p className = "text-sm m-1">Enjoy ! Now to see your channels and recommendations</p>
 
