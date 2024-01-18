@@ -2,10 +2,21 @@
 @media screen and (max-width: 767px){
     .sidebar-card{
         display: none;
-        background-color: aqua;
+        
     }
 
 }
+
+@media screen and (min-width:768px){
+    .sidebar-card{
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+
+    }
+
+}
+
 .light{
     color: black;
 

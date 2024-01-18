@@ -14,7 +14,7 @@ const SideBar = ()=>
         const textColor = lightMode ? "light" :"dark"
 
 return(
-    <Sidebar className={`sidebar-card ${textColor}`} backgroundColor= {bgsidebar}>
+    <Sidebar className={`sticky left-0 sidebar-card ${textColor}`} backgroundColor= {bgsidebar} height="100vh">
         <img src = {imageUrl}  alt = "website logo" className = "w-1/2 flex justify-center items-center ml-4 pt-2" />
 <Menu
 menuItemStyles={{
@@ -23,7 +23,7 @@ menuItemStyles={{
     // so we can use it to style the active menu item
     [`&.active`]: {
       backgroundColor: '#13395e',
-      color: '#b6c8d9',
+      color: {textColor},
     },
   },
 }}
@@ -45,6 +45,7 @@ menuItemStyles={{
 </div>
 
 </Sidebar>
+
 )
         
     }}

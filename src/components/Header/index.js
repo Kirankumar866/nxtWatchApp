@@ -3,7 +3,8 @@ import ThemeContext from "../../Context/ThemeContext"
 import { withRouter } from "react-router-dom";
 import Cookies from 'js-cookie'
 import { MdLightMode,MdNightlight} from "react-icons/md";
-import { IoMenu,IoExitOutline } from "react-icons/io5";
+import {IoExitOutline } from "react-icons/io5";
+import Menu from "../Menu"
 
 const Header = (props)=>
 
@@ -20,7 +21,7 @@ const Header = (props)=>
             Cookies.remove('jwt_token')
             history.replace('/login')
           }
-          
+
         return (
             <div className={`${bgColor} w-full flex justify-between items-start p-2 md:flex md:justify-end md:items-center h-14`}>
             <img src= {imageUrl} alt = "website logo"  className = "w-13 h-8 websitelogo "/>
@@ -41,7 +42,7 @@ const Header = (props)=>
             <button type = "button" onClick = {onChangeTheme}>
                 {mode}
             </button>
-            <IoMenu className = "ml-3 mr-3 w-6 h-6"/>
+            <Menu />
             <button type="button" className="w-7 h-5 bg-transparent border-blue align-middle" onClick = {onLogout}>
                 <IoExitOutline className = "w-6 h-6"/>
             </button>
